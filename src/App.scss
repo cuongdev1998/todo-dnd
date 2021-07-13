@@ -1,0 +1,52 @@
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .actions {
+        margin: 0 auto;
+        padding-top: 50px;
+        .btn-openModal {
+            background-color: #2684ff;
+            border: 1px solid #2684ff;
+            color: #ffffff;
+            &:hover {
+                background-color: #ffffff;
+                color: #2684ff;
+            }
+        }
+    }                                       
+    
+    .board {
+        margin: 150px auto;
+        &__column {
+            margin-right: 10px;
+            background-color: #f4f5f6;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            &:last-child {
+                margin-right: 0;
+            }
+            &--header {
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #5e6c84;
+            }
+        }
+    }
+}
+.btn {
+    border-radius: 3px;
+    padding: 10px 20px;  
+    
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+    font-weight: bold;
+
+    font-family: inherit;
+    outline: none;
+}

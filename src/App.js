@@ -1,7 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import React, { useState } from 'react';
+import './App.scss';
+
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { TodoModal } from './components/TodoModal';
+import { SVGIcon } from './components/SVGIcon';
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -41,21 +43,24 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
+  borderRadius: '5px',
 
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
+  background: isDragging ? "#ffffff" : "#ffffff",
 
   // styles we need to apply on draggables
   ...draggableStyle
 });
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
+  background: isDraggingOver ? "#4093e72e" : "#f4f5f6",
   padding: grid,
   width: 250
 });
 
 function App() {
   const [state, setState] = useState([getItems(0), getItems(0),getItems(0), getItems(0)]);
+
+  const [openModal, setOpenModal] = useState(false);
 
   function onDragEnd(result) {
     const { source, destination } = result;
@@ -79,55 +84,97 @@ function App() {
       newState[sInd] = result[sInd];
       newState[dInd] = result[dInd];
 
-      setState(newState.filter(group => group.length));
+      setState(newState);
     }
   }
 
   const generateStatusName = (columnId) => {
     switch (columnId) {
       case 0:
-        return 'TODO';
+        return {
+          label: 'TODO',
+          icon: 'todo',
+          color: '#000000'
+        };
       case 1:
-        return 'INPROGRESS';
+        return {
+          label: 'INPROGRESS',
+          icon: 'inprogress',
+          color: '#2684ff'
+        };
       case 2:
-        return 'PENDING';
+        return {
+          label: 'PENDING',
+          icon: 'pending',
+          color: '#fca120'
+        };
       case 3:
-        return 'DONE';
+        return {
+          label: 'DONE',
+          icon: 'done',
+          color: '#4ad395'
+        };
       default:
-        return 'TODO';
+        return {
+          label: 'TODO',
+          icon: 'todo'
+        };
     }
   }
   
+  const handleClose = () => {
+    setOpenModal(false)
+  }
 
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={() => {
-          setState([...state, []]);
-        }}
-      >
-        Add new group
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          let newArray = [...state];
+  const handleSubmit = (values) => {
+    console.log(values)
+       let newArray = [...state];
           newArray[0].push({
             id: `item-${new Date().getTime()}`,
-            content: `new item `,
+            content: values.trim(),
             status: 'TODO'
         })
-        console.log(newArray)
-          setState(newArray)}}
-      >
-        Add new item
-      </button>
-      <div style={{ display: "flex" }}>
+          setState(newArray)
+  }
+  
+  
+  return (
+    <div className="todo-list">
+      {openModal ? (
+        <TodoModal 
+          open={openModal} 
+          onClose={handleClose} 
+          onSubmit={handleSubmit}
+        />
+      ) : null}
+      <div className="actions">
+        {/* <button
+          type="button"
+          onClick={() => {
+            setState([...state, []]);
+          }}
+        >
+          Add new group
+        </button> */}
+        <button
+          type="button"
+          className="btn btn-openModal"
+          onClick={
+            () => {
+              setOpenModal(true)
+        
+          }}
+        >
+          Add an item
+        </button>
+      </div>
+      <div className="board" style={{ display: "flex" }}>
         <DragDropContext onDragEnd={onDragEnd}>
           {state.map((el, ind) => (
-            <div key={ind} style={{color: `${ind === 3 ? 'green' : 'grey'}`}}>
-              <div>{generateStatusName(ind)}</div>
+            <div key={ind} className="board__column">
+              <SVGIcon name={generateStatusName(ind).icon} color={generateStatusName(ind).color} />
+
+              <div className="board__column--header">{generateStatusName(ind).label}</div>
               <Droppable key={ind} droppableId={`${ind}`}>
               
                 {(provided, snapshot) => (
@@ -155,11 +202,12 @@ function App() {
                             <div
                               style={{
                                 display: "flex",
-                                justifyContent: "space-around"
+                                justifyContent: "space-around",
+                                wordBreak: 'break-word'
                               }}
                             >
                               {item.content}
-                              <button
+                              {/* <button
                                 type="button"
                                 onClick={() => {
                                   const newState = [...state];
@@ -170,7 +218,7 @@ function App() {
                                 }}
                               >
                                 delete
-                              </button>
+                              </button> */}
                             </div>
                           </div>
                         )}

@@ -1,0 +1,102 @@
+.todo__modal {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--box {
+        width: 1000px;
+        min-height: 500px;
+        background-color: #ffffff;
+        border-radius: 5px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .box {
+        &-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+
+            border-bottom: 1px solid #f3f4f7;
+
+            span {
+                display: block;
+                cursor: pointer;
+                transition: all ease-in-out 0.5s;
+                width: 30px;
+                height: 30px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &:hover {
+                    
+                    border-radius: 100%;
+                    background-color: #f3f4f7;
+                }
+            }
+        }
+
+        &-body {
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            .form-control {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 50%;
+                label {
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    margin-bottom: .5rem;
+                }
+
+                input {
+                    padding: 1rem;
+                    border: 1px solid #d2d2d2;
+                    border-radius: 3px;
+                    transition: all .3s ease-in-out;
+                    width: 400px;
+                    &:focus {
+                        outline:  none;
+                        box-shadow: 0 0 0 2px #4fb0d3;
+                    }
+                }
+            }
+        }
+
+        &-footer {
+            margin-top: auto;
+            border-top: 1px solid #f3f4f7;
+            padding: 1rem;
+            .btn {
+                background-color: #ffffff;
+                color:#0de17e;
+
+                border: 1px solid #0de17e;
+                border-radius: 3px;
+                padding: 10px 20px;  
+                
+                cursor: pointer;
+                transition: all 0.4s ease-in-out;
+                font-weight: bold;
+
+                font-family: inherit;
+
+                &:hover {
+                    background-color: #0de17e;
+                    color: #ffffff
+                }
+            }
+        }
+        
+    }
+}
